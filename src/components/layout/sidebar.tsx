@@ -118,7 +118,7 @@ function SidebarContent({ pathname }: { pathname: string }) {
             <div className="flex items-center gap-2.5">
               <div className="relative shrink-0 w-8 h-8">
                 <Avatar className="w-8 h-8">
-                  <AvatarImage src="/avatar-lina.jpg" alt="Lina Rahman" />
+                  <AvatarImage src="/avatar-lina.svg" alt="Lina Rahman" />
                   <AvatarFallback className="bg-brand-100 text-brand-700 text-xs font-semibold">
                     LR
                   </AvatarFallback>
