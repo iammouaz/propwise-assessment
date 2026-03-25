@@ -2,7 +2,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 function KpiCardSkeleton() {
   return (
-    <div className="bg-white rounded-xl border border-gray-200 p-4 flex flex-col gap-3">
+    <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-4 flex flex-col gap-3">
       <div className="flex items-start justify-between">
         <div className="flex flex-col gap-2">
           <Skeleton className="h-3 w-20" />
@@ -15,9 +15,19 @@ function KpiCardSkeleton() {
   );
 }
 
-function ChartSkeleton({ height = "h-48" }: { height?: string }) {
+export function KpiCardsSkeleton() {
   return (
-    <div className="bg-white rounded-xl border border-gray-200 p-5 flex flex-col gap-4">
+    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      {[0, 1, 2, 3].map((i) => (
+        <KpiCardSkeleton key={i} />
+      ))}
+    </div>
+  );
+}
+
+export function RevenueSkeleton() {
+  return (
+    <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-5 flex flex-col gap-4">
       <div className="flex items-start justify-between">
         <div className="flex flex-col gap-2">
           <Skeleton className="h-3 w-24" />
@@ -25,14 +35,29 @@ function ChartSkeleton({ height = "h-48" }: { height?: string }) {
         </div>
         <Skeleton className="h-5 w-20" />
       </div>
-      <Skeleton className={`w-full ${height}`} />
+      <Skeleton className="w-full h-[180px]" />
     </div>
   );
 }
 
-function FeedSkeleton() {
+export function PipelineSkeleton() {
   return (
-    <div className="bg-white rounded-xl border border-gray-200 p-5 flex flex-col gap-5">
+    <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-5 flex flex-col gap-4">
+      <div className="flex items-start justify-between">
+        <div className="flex flex-col gap-2">
+          <Skeleton className="h-3 w-24" />
+          <Skeleton className="h-7 w-32" />
+        </div>
+        <Skeleton className="h-5 w-20" />
+      </div>
+      <Skeleton className="w-full h-[220px]" />
+    </div>
+  );
+}
+
+export function FeedSkeleton() {
+  return (
+    <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-5 flex flex-col gap-5">
       <div className="flex items-center justify-between">
         <Skeleton className="h-4 w-24" />
         <Skeleton className="h-3 w-12" />
@@ -56,9 +81,9 @@ function FeedSkeleton() {
   );
 }
 
-function TasksSkeleton() {
+export function TasksSkeleton() {
   return (
-    <div className="bg-white rounded-xl border border-gray-200 p-5 flex flex-col gap-4">
+    <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-5 flex flex-col gap-4">
       <div className="flex items-center justify-between">
         <Skeleton className="h-4 w-32" />
         <Skeleton className="h-3 w-12" />
@@ -68,7 +93,7 @@ function TasksSkeleton() {
         <Skeleton className="h-3 w-20" />
       </div>
       {[0, 1, 2, 3, 4].map((i) => (
-        <div key={i} className="flex items-center gap-3 py-2 border-b border-gray-100">
+        <div key={i} className="flex items-center gap-3 py-2 border-b border-gray-100 dark:border-gray-800">
           <Skeleton className="w-4 h-4 rounded flex-shrink-0" />
           <div className="flex flex-col gap-1 flex-1">
             <Skeleton className="h-3 w-full" />
@@ -80,28 +105,6 @@ function TasksSkeleton() {
           </div>
         </div>
       ))}
-    </div>
-  );
-}
-
-export function DashboardSkeleton() {
-  return (
-    <div className="flex flex-col gap-5">
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        {[0, 1, 2, 3].map((i) => (
-          <KpiCardSkeleton key={i} />
-        ))}
-      </div>
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
-        <div className="lg:col-span-2 flex flex-col gap-5">
-          <ChartSkeleton height="h-[180px]" />
-          <ChartSkeleton height="h-[220px]" />
-        </div>
-        <div className="flex flex-col gap-5">
-          <FeedSkeleton />
-          <TasksSkeleton />
-        </div>
-      </div>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import type { DashboardData } from "@/types/dashboard";
+import type { ActivityEntry, DashboardData } from "@/types/dashboard";
 
 export const todayData: DashboardData = {
   kpis: [
@@ -245,6 +245,63 @@ function scaleData(data: DashboardData, factor: number): DashboardData {
         value: s.value ? Math.round(s.value * factor) : null,
       })),
     },
+  };
+}
+
+const liveActivityPool: Omit<ActivityEntry, "id" | "timestamp" | "relativeTime">[] = [
+  {
+    message: "New lead {Fatima Al-Hassan} added to {New Lead} stage",
+    highlights: [
+      { text: "Fatima Al-Hassan", type: "person" },
+      { text: "New Lead", type: "stage" },
+    ],
+    icon: "lead",
+  },
+  {
+    message: "Deal {Marina Tower #2205} moved to {Qualified}",
+    highlights: [
+      { text: "Marina Tower #2205", type: "deal" },
+      { text: "Qualified", type: "stage" },
+    ],
+    icon: "deal",
+  },
+  {
+    message: "Call logged with {Khalid Al-Farsi} — meeting requested",
+    highlights: [{ text: "Khalid Al-Farsi", type: "person" }],
+    icon: "call",
+  },
+  {
+    message: "Email sent to {Nadia Okafor} regarding site visit",
+    highlights: [{ text: "Nadia Okafor", type: "person" }],
+    icon: "email",
+  },
+  {
+    message: "Note added to {Business Bay #0441}",
+    highlights: [{ text: "Business Bay #0441", type: "deal" }],
+    icon: "note",
+  },
+  {
+    message: "Task completed: follow-up call with {James Thornton}",
+    highlights: [{ text: "James Thornton", type: "person" }],
+    icon: "task",
+  },
+  {
+    message: "Commission recorded for {JBR Apartment #0315}",
+    highlights: [{ text: "JBR Apartment #0315", type: "deal" }],
+    icon: "commission",
+  },
+];
+
+let liveActivityIndex = 0;
+
+export function getNextLiveActivity(): ActivityEntry {
+  const template = liveActivityPool[liveActivityIndex % liveActivityPool.length];
+  liveActivityIndex++;
+  return {
+    ...template,
+    id: `live-${Date.now()}-${Math.random().toString(36).slice(2)}`,
+    timestamp: new Date().toISOString(),
+    relativeTime: "Just now",
   };
 }
 

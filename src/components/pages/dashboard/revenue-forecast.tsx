@@ -98,7 +98,7 @@ export function RevenueForecast({ total, trend, trendDirection, data }: RevenueF
           className="flex items-center gap-1 text-xs font-semibold text-brand-600 hover:text-brand-700 dark:text-brand-400 transition-colors flex-shrink-0 mt-1"
           style={{ fontFamily: "var(--font-figtree)" }}
         >
-          View report
+          Report
           <ArrowUpRight className="w-3 h-3" />
         </button>
       </div>

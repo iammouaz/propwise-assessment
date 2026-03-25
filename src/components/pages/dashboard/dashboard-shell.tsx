@@ -13,7 +13,7 @@ export function DashboardShell({ initialPeriod }: { initialPeriod: Period }) {
   useHydrateAtoms([[activePeriodAtom, initialPeriod]]);
 
   return (
-    <div className="flex min-h-screen bg-gray-50 dark:bg-gray-950 overflow-x-hidden">
+    <div className="flex h-screen bg-gray-50 dark:bg-gray-950 overflow-hidden">
       <DashboardLoader />
       <DashboardPeriodUrl />
       <Sidebar />

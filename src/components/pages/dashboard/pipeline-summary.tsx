@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import type { PipelineStage } from "@/types/dashboard";
+import { useAddToast } from "@/hooks/use-dashboard";
 
 interface PipelineSummaryProps {
   totalDeals: number;
@@ -9,14 +10,9 @@ interface PipelineSummaryProps {
   stages: PipelineStage[];
 }
 
-const stageColors: Record<string, string> = {
-  "New Lead": "#3567FF",
-  Contacted: "#5D85FF",
-  Qualified: "#86A4FF",
-  Proposal: "#AEC2FF",
-  Negotiation: "#D7E1FF",
-  "Closed Won": "#EBF0FF",
-};
+const BAR_COLOR = "#1e3a8a";
+const BAR_TEXT_COLOR = "#ffffff";
+const PILL_BG = "rgba(255, 255, 255, 0.15)";
 
 function formatValue(value: number | null, currency: string): string {
   if (value === null) return "—";
@@ -26,39 +22,44 @@ function formatValue(value: number | null, currency: string): string {
 }
 
 export function PipelineSummary({ totalDeals, totalValue, stages }: PipelineSummaryProps) {
+  const addToast = useAddToast();
+
   return (
-    <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 shadow-[0px_1px_3px_rgba(0,0,0,0.1),0px_0px_2px_rgba(0,0,0,0.06)] p-5 flex flex-col gap-4">
-      <div>
-        <div className="flex items-start justify-between gap-2">
-          <div>
-            <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">Deal Pipeline</p>
-            <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
-              {totalDeals} deals · {totalValue} total value
-            </p>
-          </div>
+    <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 shadow-card p-5 flex flex-col gap-4">
+      <div className="flex items-start justify-between gap-2">
+        <div>
+          <p className="text-base font-semibold text-gray-900 dark:text-gray-100">Pipeline Summary</p>
+          <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+            {totalDeals} deals across {stages.length} stages · {totalValue} total value
+          </p>
         </div>
+        <button
+          type="button"
+          onClick={() =>
+            addToast({
+              variant: "info",
+              title: "Pipeline details",
+              description: "Navigate to the Deals section to see full pipeline details.",
+              duration: 4000,
+            })
+          }
+          className="text-xs text-brand-600 font-medium hover:text-brand-700 dark:text-brand-400 transition-colors shrink-0 mt-1"
+        >
+          Details ↗
+        </button>
       </div>
 
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-3 mt-2">
         {stages.map((stage, index) => {
-          const color = stageColors[stage.stage] ?? "#3567FF";
           return (
-            <div key={stage.stage} className="flex flex-col gap-1">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-medium text-gray-700 dark:text-gray-300">{stage.stage}</span>
-                <div className="flex items-center gap-3">
-                  <span className="text-xs text-gray-500">
-                    {stage.count !== null ? stage.count : "—"}
-                  </span>
-                  <span className="text-xs text-gray-400 w-20 text-right">
-                    {formatValue(stage.value, stage.currency)}
-                  </span>
-                </div>
-              </div>
-              <div className="h-2 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
+            <div key={stage.stage} className="flex items-center gap-3">
+              <span className="text-[13px] font-medium text-gray-700 dark:text-gray-300 w-24 shrink-0">
+                {stage.stage}
+              </span>
+              <div className="flex-1 h-8 bg-gray-100 dark:bg-gray-800 rounded-md overflow-hidden">
                 <motion.div
-                  className="h-full rounded-full"
-                  style={{ backgroundColor: color }}
+                  className="h-full rounded-md flex items-center px-1"
+                  style={{ backgroundColor: BAR_COLOR, minWidth: "fit-content" }}
                   initial={{ width: 0 }}
                   animate={{ width: `${stage.relativeWidth}%` }}
                   transition={{
@@ -66,7 +67,29 @@ export function PipelineSummary({ totalDeals, totalValue, stages }: PipelineSumm
                     delay: index * 0.08,
                     ease: "easeOut",
                   }}
-                />
+                >
+                  {stage.count !== null && (
+                    <div 
+                      className="h-6 px-2.5 rounded-md flex items-center gap-1.5"
+                      style={{ backgroundColor: PILL_BG }}
+                    >
+                      <span
+                        className="text-[11px] font-bold leading-none whitespace-nowrap"
+                        style={{ color: BAR_TEXT_COLOR }}
+                      >
+                        {stage.count}
+                      </span>
+                      {stage.value !== null && (
+                        <span
+                          className="text-[11px] font-normal leading-none whitespace-nowrap opacity-75"
+                          style={{ color: BAR_TEXT_COLOR }}
+                        >
+                          {formatValue(stage.value, stage.currency)}
+                        </span>
+                      )}
+                    </div>
+                  )}
+                </motion.div>
               </div>
             </div>
           );

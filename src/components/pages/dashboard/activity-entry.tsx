@@ -1,8 +1,8 @@
 "use client";
 
 import {
-  User,
-  Briefcase,
+  UserPlus,
+  ArrowRightLeft,
   Phone,
   Mail,
   FileText,
@@ -13,24 +13,15 @@ import type { ActivityEntry as ActivityEntryType, ActivityIcon } from "@/types/d
 import { cn } from "@/lib/utils";
 
 const iconMap: Record<ActivityIcon, React.ReactNode> = {
-  lead: <User className="w-3.5 h-3.5" />,
-  deal: <Briefcase className="w-3.5 h-3.5" />,
-  call: <Phone className="w-3.5 h-3.5" />,
-  email: <Mail className="w-3.5 h-3.5" />,
-  note: <FileText className="w-3.5 h-3.5" />,
-  task: <CheckSquare className="w-3.5 h-3.5" />,
-  commission: <DollarSign className="w-3.5 h-3.5" />,
+  lead: <UserPlus className="w-4 h-4" />,
+  deal: <ArrowRightLeft className="w-4 h-4" />,
+  call: <Phone className="w-4 h-4" />,
+  email: <Mail className="w-4 h-4" />,
+  note: <FileText className="w-4 h-4" />,
+  task: <CheckSquare className="w-4 h-4" />,
+  commission: <DollarSign className="w-4 h-4" />,
 };
 
-const iconColors: Record<ActivityIcon, string> = {
-  lead: "bg-brand-50 text-brand-600",
-  deal: "bg-green-50 text-green-700",
-  call: "bg-amber-50 text-amber-700",
-  email: "bg-blue-50 text-blue-700",
-  note: "bg-gray-100 text-gray-600",
-  task: "bg-green-50 text-green-700",
-  commission: "bg-amber-50 text-amber-700",
-};
 
 function parseMessage(
   message: string,
@@ -62,39 +53,33 @@ export function ActivityEntry({ entry, isLast }: ActivityEntryProps) {
   const parts = parseMessage(entry.message, entry.highlights);
 
   return (
-    <div className="flex gap-3">
-      <div className="flex flex-col items-center">
+    <div className="relative flex gap-4 pb-6 last:pb-0">
+      {!isLast && (
+        <div className="absolute left-4 top-8 bottom-[-8px] w-px bg-gray-200 dark:bg-gray-800 -translate-x-1/2" />
+      )}
+      <div className="relative z-10">
         <span
-          className={cn(
-            "flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center",
-            iconColors[entry.icon]
-          )}
+          className="shrink-0 w-8 h-8 rounded-full flex items-center justify-center bg-[#f8f9fb] text-gray-500 dark:bg-gray-800 dark:text-gray-400 border-2 border-white dark:border-gray-900"
         >
           {iconMap[entry.icon]}
         </span>
-        {!isLast && <div className="w-px flex-1 bg-gray-100 mt-1" />}
       </div>
-      <div className={cn("pb-3 flex-1 min-w-0", isLast && "pb-0")}>
-        <p className="text-xs text-gray-600 leading-relaxed">
+      <div className="flex-1 min-w-0 pt-1">
+        <p className="text-[13px] text-gray-900 dark:text-gray-100 leading-relaxed">
           {parts.map((part, i) =>
             part.highlight ? (
               <span
                 key={i}
-                className={cn(
-                  "font-semibold",
-                  part.highlight.type === "person" && "text-brand-600",
-                  part.highlight.type === "deal" && "text-gray-900",
-                  part.highlight.type === "stage" && "text-gray-900"
-                )}
+                className="font-medium text-brand-600 dark:text-brand-400"
               >
                 {part.text}
               </span>
             ) : (
-              <span key={i}>{part.text}</span>
+              <span key={i} className={i === 0 ? "font-semibold" : ""}>{part.text}</span>
             )
           )}
         </p>
-        <p className="text-[11px] text-gray-400 mt-0.5">{entry.relativeTime}</p>
+        <p className="text-xs text-gray-400 mt-1">{entry.relativeTime}</p>
       </div>
     </div>
   );
