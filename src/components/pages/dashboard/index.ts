@@ -9,7 +9,6 @@ export { ActivityFeed } from "./activity-feed";
 export { ActivityEntry } from "./activity-entry";
 export { TasksPanel } from "./tasks-panel";
 export { TaskItem } from "./task-item";
-export { DashboardSkeleton } from "./dashboard-skeleton";
 export { DashboardShell } from "./dashboard-shell";
 export { DashboardMain } from "./dashboard-main";
 export { DashboardLoader } from "./dashboard-loader";
