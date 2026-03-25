@@ -25,7 +25,7 @@ export function DashboardMain() {
     <main className="flex-1 min-w-0 flex flex-col h-screen overflow-hidden py-3 pr-3 pl-0 lg:pl-0">
       <div className="flex-1 bg-white dark:bg-gray-900 rounded-[32px] border border-gray-200 dark:border-gray-800 overflow-y-auto overflow-x-hidden shadow-sm">
         <div className="px-4 py-6 sm:px-8 lg:px-10 pt-16 lg:pt-8">
-          <div className="max-w-[1400px] mx-auto flex flex-col gap-5">
+          <div className="mx-auto flex flex-col gap-5">
             <DashboardHeader />
             <div className="overflow-x-auto pb-1 -mx-1 px-1">
               <DateFilterTabs />
